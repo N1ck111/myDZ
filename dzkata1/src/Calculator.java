@@ -1,79 +1,55 @@
-import java.util.Scanner;
-
-public class Calculator {
-    public static void main(String[] args) {
-        //2+3
-        //X+V=XV
-        Converter converter = new Converter();
-        String[] actions = {"+", "-", "/", "*"};
-        String[] regexActions = {"\\+", "-", "/", "\\*"};
-        Scanner scn = new Scanner(System.in);
-        System.out.print("Введите выражение: ");
-        String exp = scn.nextLine();
-        //Определяем арифметическое действие:
-        int actionIndex=-1;
-        for (int i = 0; i < actions.length; i++) {
-            if(exp.contains(actions[i])){
-                actionIndex = i;
-                break;
-            }
-        }
-        //Если не нашли арифметического действия, завершаем программу
-        if(actionIndex==-1){
-            System.out.println("Некорректное выражение");
-            return;
-        }
-        //Делим строчку по найденному арифметическому знаку
-
-
-        String[] data = exp.split(regexActions[actionIndex]);
-        //Определяем, находятся ли числа в одном формате (оба римские или оба арабские)
-        if(converter.isRoman(data[0]) == converter.isRoman(data[1])){
-            int a,b;
-            //Определяем, римские ли это числа
-            boolean isRoman = converter.isRoman(data[0]);
-            if(isRoman){
-                //если римские, то конвертируем их в арабские
-                //X+V
-                //x-10
-                //v - 5
-                a = converter.romanToInt(data[0]);
-                b = converter.romanToInt(data[1]);
-
-            }else{
-                //если арабские, конвертируем их из строки в число
-                a = Integer.parseInt(data[0]);
-                b = Integer.parseInt(data[1]);
-            }
-            //выполняем с числами арифметическое действие
-            int result;
-            switch (actions[actionIndex]){
-                case "+":
-                    result = a+b;
-                    break;
-                case "-":
-                    result = a-b;
-                    break;
-                case "*":
-                    result = a*b;
-                    break;
-                default:
-                    result = a/b;
-                    break;
-            }
-            //15->XV
-            if(isRoman){
-                //если числа были римские, возвращаем результат в римском числе
-                System.out.println(converter.intToRoman(result));
-            }
-            else{
-                //если числа были арабские, возвращаем результат в арабском числе
-                System.out.println(result);
-            }
-        }else{
-            System.out.println("Числа должны быть в одном формате");
-        }
-
-
+function calculator(string) {
+  let arr = string.split(' ');
+   const romeObj = {
+I:1,II:2,III:3,IV:4,V:5,VI:6,VII:7,VIII:8,IX:9,X:10,XI:11,XII:12,XIII:13,XIV:14,XV:15,XVI:16,XVII:17,XVIII:18,XIX:19,XX:20,XXI:21,XXII:22,XXIII:23,XXIV:24,XXV:25,XXVI:26,XXVII:27,XXVIII:28,XXIX:29,XXX:30,XXXI:31,XXXII:32,XXXIII:33,XXXIV:34,XXXV:35,XXXVI:36,XXXVII:37,XXXVIII:38,XXXIX:39,XL:40,XLI:41,XLII:42,XLIII:43,XLIV:44,XLV:45,XLVI:46,XLVII:47,XLVIII:48,XLIX:49,L:50,LI:51,LII:52,LIII:53,LIV:54,LV:55,LVI:56,LVII:57,LVIII:58,LIX:59,LX:60,LXI:61,LXII:62,LXIII:63,LXIV:64,LXV:65,LXVI:66,LXVII:67,LXVIII:68,LXIX:69,LXX:70,LXXI:71,LXXII:72,LXXIII:73,LXXIV:74,LXXV:75,LXXVI:76,LXXVII:77,LXXVIII:78,LXXIX:79,LXXX:80,LXXXI:81,LXXXII:82,LXXXIII:83,LXXXIV:84,LXXXV:85,LXXXVI:86,LXXXVII:87,LXXXVIII:88,LXXXIX:89,XC:90,XCI:91,XCII:92,XCIII:93,XCIV:94,XCV:95,XCVI:96,XCVII:97,XCVIII:98,XCIX:99,C:100
+   };
+  if(arr[1] === '+' || arr[1] ===  '-' || arr[1] === '*' || arr[1] === '/'){  
+    if(arr.length == 3) {
+    if (isNaN(arr[0]) === false && isNaN(arr[2]) === false){
+      if (1 <= Number(arr[0]) && Number(arr[0]) <= 10 && 1 <= Number(arr[2]) && Number(arr[2]) <= 10){
+        return (Math.floor(eval(string))).toString();
+      }
+      else error.log('Ошибка');
     }
+   else if (isNaN(arr[0]) === true && isNaN(arr[2]) === true) {      
+        if (typeof romeObj[arr[0]] == 'number' && typeof romeObj[arr[2]] == 'number') {
+          if (romeObj[arr[0]] <= 10 && romeObj[arr[2]] <= 10) {
+            let firstNum = romeObj[arr[0]];
+            let secondNum = romeObj[arr[2]];
+            if (arr[1] === '+') {
+             return Object.keys(romeObj).find(element => romeObj[element] == `${firstNum + secondNum}`);
+            }
+            if (arr[1] === '-') {
+              if (Object.keys(romeObj).find(element => romeObj[element] == Math.floor(`${(firstNum - secondNum)}`)) == undefined) {
+                return '';
+              }
+              else {
+                return Object.keys(romeObj).find(element => romeObj[element] == Math.floor(`${(firstNum - secondNum)}`));
+              }
+            }
+            if (arr[1] === '*') {
+              return Object.keys(romeObj).find(element => romeObj[element] == Math.floor(`${firstNum * secondNum}`));
+            }
+            if (arr[1] === '/') {
+              if(Object.keys(romeObj).find(element => romeObj[element] == Math.floor(`${firstNum / secondNum}`)) == undefined){
+                return '';
+              }
+              else{
+                return Object.keys(romeObj).find(element => romeObj[element] == Math.floor(`${firstNum / secondNum}`));
+              }
+            }
+          }
+          else error.log('Ошибка');
+        }
+        else error.log('Ошибка');
+      }
+      else error.log('Ошибка');
+    } 
+    else error.log('Ошибка');
+  }
+  else error.log('Ошибка');
 }
+
+
+
+module.exports = calculator; // Не трогайте эту строчку
